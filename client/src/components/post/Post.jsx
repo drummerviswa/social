@@ -30,7 +30,6 @@ const Post = ({ post }) => {
       return makeRequest.post("/likes", { postId: post.id });
     },
       onSuccess: () => {
-        // Invalidate and refetch
         queryClient.invalidateQueries(["likes"]);
     }
   })
@@ -39,7 +38,6 @@ const Post = ({ post }) => {
       return makeRequest.delete("/posts/" + postId);
     },
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries(["posts"]);
     },
   })

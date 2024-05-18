@@ -18,7 +18,6 @@ import { AuthContext } from "./context/authContext";
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
 } from "@tanstack/react-query";
 import Admin from "./pages/admin/Admin";
 function App() {
