@@ -19,9 +19,10 @@ import {
   QueryClient,
   QueryClientProvider,
   useQuery,
-} from '@tanstack/react-query'
+} from "@tanstack/react-query";
+import Admin from "./pages/admin/Admin";
 function App() {
-  const {currentUser} = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   const { darkMode } = useContext(DarkModeContext);
 
@@ -30,16 +31,31 @@ function App() {
   const Layout = () => {
     return (
       <QueryClientProvider client={queryClient}>
-      <div className={`theme-${darkMode ? "dark" : "light"}`}>
-        <Navbar />
-        <div style={{ display: "flex" }}>
-          <LeftBar />
-          <div style={{ flex: 6 }}>
-            <Outlet />
+        <div className={`theme-${darkMode ? "dark" : "light"}`}>
+          <Navbar />
+          <div style={{ display: "flex" }}>
+            <LeftBar />
+            <div style={{ flex: 6 }}>
+              <Outlet />
+            </div>
+            <RightBar />
           </div>
-          <RightBar />
         </div>
-      </div>
+      </QueryClientProvider>
+    );
+  };
+  const GroupAdmin = () => {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <div className={`theme-${darkMode ? "dark" : "light"}`}>
+          <Navbar />
+          <div style={{ display: "flex" }}>
+            <LeftBar />
+            <div style={{ flex: 12 }}>
+              <Admin />
+            </div>
+          </div>
+        </div>
       </QueryClientProvider>
     );
   };
@@ -48,7 +64,13 @@ function App() {
     if (!currentUser) {
       return <Navigate to="/login" />;
     }
-
+    return children;
+  };
+  const ProtectedRouteforAdmin = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/login" />;
+    }else if(currentUser.type!=1)
+      return <Navigate to="/" />;
     return children;
   };
 
@@ -70,6 +92,14 @@ function App() {
           element: <Profile />,
         },
       ],
+    },
+    {
+      path: "/admin",
+      element: (
+        <ProtectedRouteforAdmin>
+          <GroupAdmin />
+        </ProtectedRouteforAdmin>
+      ),
     },
     {
       path: "/login",

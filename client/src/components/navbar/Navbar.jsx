@@ -46,10 +46,10 @@ const Navbar = () => {
         </div>
       </div>
       <div className="right">
-        <PersonOutlinedIcon />
+        {currentUser.type===0?<></>:<PersonOutlinedIcon onClick={() => navigate("/admin")} />}
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
-        <div className="user" onClick={handleLogout}>
+        <div style={{cursor:"pointer"}} className="user" onClick={handleLogout}>
           <img
             src={"/uploads/"+currentUser.coverPic}
             alt=""

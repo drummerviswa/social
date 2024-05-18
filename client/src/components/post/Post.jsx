@@ -49,7 +49,6 @@ const Post = ({ post }) => {
   const handleDelete = () => {
     deleteMutation.mutate(post.id);
   };
-  console.log(post);
   return (
     <div className="post">
       <div className="container">
@@ -81,7 +80,7 @@ const Post = ({ post }) => {
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            12 Comments
+            Comments
           </div>
           <div className="item">
             <ShareOutlinedIcon />

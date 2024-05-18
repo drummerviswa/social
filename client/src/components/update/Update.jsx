@@ -15,7 +15,6 @@ const Update = ({setOpenUpdate,user}) => {
     const [cover, setCover] = useState(null);
     const [profile, setProfile] = useState(null)
     const upload = async (file) => {
-        console.log(file)
         try {
           const formData = new FormData();
           formData.append("file", file);

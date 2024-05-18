@@ -11,13 +11,13 @@ const Posts = ({ userId }) => {
         return res.data;
       })
   });
-  console.log("User: ",data);
+  console.log(data);
   return (<div className="posts">
     {error
       ? "Something went wrong!"
       : isLoading
         ? "loading"
-        : data===undefined?<h1>Data not found</h1>:data.map((post) => <Post post={post} key={post.id} />)}
+        : data===undefined?<h1>Data not found</h1>:data.map((post) =>  <Post post={post} key={post.id} />)}
   </div>);
 };
 

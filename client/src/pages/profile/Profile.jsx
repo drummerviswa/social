@@ -8,7 +8,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import LanguageIcon from "@mui/icons-material/Language";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Posts from "../../components/posts/Posts"
+import Posts from "../../components/posts/Posts";
 import { useLocation } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
@@ -20,21 +20,23 @@ const Profile = () => {
   const { currentUser } = useContext(AuthContext);
   const [openUpdate, setOpenUpdate] = useState(false);
   const userId = parseInt(useLocation().pathname.split("/")[2]);
-  const { isLoading, error, data } = useQuery({queryKey:["user"], queryFn:() =>
-    makeRequest.get("/users/find/" + userId).then((res) => {
-      return res.data;
-    })
+  const queryClient = useQueryClient();
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["user"],
+    queryFn: () =>
+      makeRequest.get("/users/find/" + userId).then((res) => {
+        return res.data;
+      }),
   });
 
   const { risLoading, data: relationshipData } = useQuery({
-    queryKey:["relationship"],
-    queryFn:() =>
+    queryKey: ["relationship"],
+    queryFn: () =>
       makeRequest.get("/relationships?followedUserId=" + userId).then((res) => {
         return res.data;
-      })
+      }),
   });
 
-  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: (following) => {
@@ -45,29 +47,29 @@ const Profile = () => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries(["relationship"]);
-    }
-  })
+    },
+  });
 
   const handleFollow = () => {
     mutation.mutate(relationshipData.includes(currentUser.id));
   };
   return (
     <div className="profile">
-    {
-      data===undefined?<div className="container"><h1 style={{color:"white"}}>No Profile found</h1></div>:
-      isLoading ? ("Loading") : (
+      {data === undefined ? (
+        <div className="container">
+          <h1 style={{ color: "white" }}>No Profile found</h1>
+        </div>
+      ) : isLoading ? (
+        "Loading"
+      ) : (
         <>
           <div className="images">
+            <img src={"/uploads/" + data.profilePic} alt="" className="cover" />
             <img
-              src={"/uploads/"+data.profilePic}
-              alt=""
-              className="cover"
-              />
-            <img
-              src={"/uploads/"+data.coverPic}
+              src={"/uploads/" + data.coverPic}
               alt=""
               className="profilePic"
-              />
+            />
           </div>
           <div className="profileContainer">
             <div className="uInfo">
@@ -78,43 +80,49 @@ const Profile = () => {
                 <a href="http://facebook.com">
                   <InstagramIcon fontSize="large" />
                 </a>
-                <a href="http://facebook.com">
-                  <TwitterIcon fontSize="large" />
-                </a>
-                <a href="http://facebook.com">
-                  <LinkedInIcon fontSize="large" />
-                </a>
-                <a href="http://facebook.com">
-                  <PinterestIcon fontSize="large" />
-                </a>
               </div>
               <div className="center">
-                <span style={{ textAlign: "center", fontSize: 25 }}>{data && data.name}</span>
+                <span style={{ textAlign: "center", fontSize: 25 }}>
+                  {data && data.name}
+                </span>
                 <div className="info">
-                  <div className="item">
+                  <div className="item" style={{padding:10}}>
                     <PlaceIcon />
                     <span>{data.city}</span>
                   </div>
-                  <div className="item">
+                  <div className="item" style={{padding:10}}>
                     <LanguageIcon />
                     <span>{data.website}</span>
                   </div>
+                  <div className="item" style={{padding:10}}>
+                    <EmailOutlinedIcon />
+                    <span>{data.email}</span>
+                  </div>
                 </div>
-                {risLoading ? "Loading....." : userId === currentUser.id ? (<button onClick={()=>setOpenUpdate(true)}>update</button>) : <button onClick={handleFollow}>{relationshipData && relationshipData.includes(currentUser.id) ? "Following" : "Follow"}</button>}
+                {risLoading ? (
+                  "Loading....."
+                ) : userId === currentUser.id ? (
+                  <button onClick={() => setOpenUpdate(true)}>update</button>
+                ) : (
+                  <button onClick={handleFollow}>
+                    {relationshipData &&
+                    relationshipData.includes(currentUser.id)
+                      ? "Following"
+                      : "Follow"}
+                  </button>
+                )}
               </div>
               <div className="right">
-                <EmailOutlinedIcon />
                 <MoreVertIcon />
               </div>
             </div>
             <Posts />
           </div>
         </>
-      )
-    }
-    {openUpdate&&<Update setOpenUpdate={setOpenUpdate} user={data} />}
-  </div>
-);
-}
+      )}
+      {openUpdate && <Update setOpenUpdate={setOpenUpdate} user={data} />}
+    </div>
+  );
+};
 
 export default Profile;

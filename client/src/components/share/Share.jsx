@@ -19,7 +19,7 @@ const Share = () => {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -30,37 +30,52 @@ const Share = () => {
       // Invalidate and refetch
       queryClient.invalidateQueries(["posts"]);
     },
-  })
+  });
 
   const handleClick = async (e) => {
-    e.preventDefault();
-    let imgUrl = "";
-    if (file) imgUrl = await upload();
-    mutation.mutate({ desc, img: imgUrl });
-    setDesc("");
-    setFile(null);
-  }
+    if (desc != "") {
+      e.preventDefault();
+      let imgUrl = "";
+      if (file) imgUrl = await upload();
+      mutation.mutate({ desc, img: imgUrl });
+      setDesc("");
+      setFile(null);
+    }
+  };
 
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext);
   return (
     <div className="share">
       <div className="container">
         <div className="top">
           <div className="left">
-            <img
-              src={"/uploads/"+currentUser.coverPic}
-              alt=""
+            <img src={"/uploads/" + currentUser.coverPic} alt="" />
+            <input
+              type="text"
+              placeholder={`What's on your mind ${currentUser.name}?`}
+              onChange={(e) => setDesc(e.target.value)}
+              value={desc}
             />
-            <input type="text" placeholder={`What's on your mind ${currentUser.name}?`} onChange={(e) => setDesc(e.target.value)} value={desc} />
           </div>
           <div className="right">
-            {file&&<img className="file" src={URL.createObjectURL(file)} alt="File is here" />}
+            {file && (
+              <img
+                className="file"
+                src={URL.createObjectURL(file)}
+                alt="File is here"
+              />
+            )}
           </div>
         </div>
         <hr />
         <div className="bottom">
           <div className="left">
-            <input type="file" id="file" style={{ display: "none" }} onChange={e => setFile(e.target.files[0])} />
+            <input
+              type="file"
+              id="file"
+              style={{ display: "none" }}
+              onChange={(e) => setFile(e.target.files[0])}
+            />
             <label htmlFor="file">
               <div className="item">
                 <img src={Image} alt="" />
