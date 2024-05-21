@@ -34,6 +34,8 @@ export const login = (req, res) => {
         const { password, ...others } = data[0]
         res.cookie("accessToken", token, {
             httpOnly: true,
+            secure: true, // Make sure to set this in a production environment
+            sameSite: "none" // Make sure to set this in a production environment
         }).status(200).json(others);
     })
 }
