@@ -7,7 +7,7 @@ const Home = () => {
     <div className="home">
       <Stories/>
       <Share/>
-      <Posts/>
+      <Posts />
     </div>
   )
 }

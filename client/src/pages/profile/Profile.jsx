@@ -45,7 +45,6 @@ const Profile = () => {
       return makeRequest.post("/relationships", { userId });
     },
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries(["relationship"]);
     },
   });
@@ -74,10 +73,10 @@ const Profile = () => {
           <div className="profileContainer">
             <div className="uInfo">
               <div className="left">
-                <a href="http://facebook.com">
+                <a href={"http://facebook.com/"+data.username}>
                   <FacebookTwoToneIcon fontSize="large" />
                 </a>
-                <a href="http://facebook.com">
+                <a href={"http://instagram.com/"+data.username}>
                   <InstagramIcon fontSize="large" />
                 </a>
               </div>

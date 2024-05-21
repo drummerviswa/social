@@ -1,60 +1,60 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import "./update.scss";
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-const Update = ({setOpenUpdate,user}) => {
-    const [texts,setTexts] = useState({
-        email: user.email,
+const Update = ({ setOpenUpdate, user }) => {
+  const [texts, setTexts] = useState({
+    email: user.email,
     password: user.password,
     name: user.name,
     city: user.city,
     website: user.website,
-    })
-    const [cover, setCover] = useState(null);
-    const [profile, setProfile] = useState(null)
-    const upload = async (file) => {
-        try {
-          const formData = new FormData();
-          formData.append("file", file);
-          const res = await makeRequest.post("/upload", formData);
-          return res.data;
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      const handleChange = (e) => {
-        setTexts((prev) => ({ ...prev, [e.target.name]: [e.target.value] }));
-      };
-    
-      const queryClient = useQueryClient();
+  });
+  const [cover, setCover] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const upload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await makeRequest.post("/upload", formData);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleChange = (e) => {
+    setTexts((prev) => ({ ...prev, [e.target.name]: [e.target.value] }));
+  };
+
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn:  (user) => {
-        return makeRequest.put("/users", user);
-      },
-      onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries(["user"]);
-      },
-  })
+    mutationFn: (user) => {
+      return makeRequest.put("/users", user);
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(["user"]);
+    },
+  });
 
   const handleClick = async (e) => {
     e.preventDefault();
 
     //TODO: find a better way to get image URL
-    
+
     let coverUrl;
     let profileUrl;
     coverUrl = cover ? await upload(cover) : user.coverPic;
     profileUrl = profile ? await upload(profile) : user.profilePic;
-    
+
     mutation.mutate({ ...texts, coverPic: coverUrl, profilePic: profileUrl });
     setOpenUpdate(false);
     setCover(null);
     setProfile(null);
-  }
+  };
   return (
     <div className="update">
       <div className="wrapper">
@@ -144,7 +144,7 @@ const Update = ({setOpenUpdate,user}) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Update
+export default Update;

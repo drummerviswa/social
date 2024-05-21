@@ -11,6 +11,12 @@ import Update from "../update/Update";
 const Datatable = () => {
   const { currentUser } = useContext(AuthContext);
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [clickUser,setClickUser] = useState();
+  const handleUpdate = (d) =>{
+    setClickUser(d);
+    console.log("Current:",clickUser);
+    setOpenUpdate(true);
+  }
   var {data } = useQuery({
     queryKey: ["users"],
     queryFn: () =>
@@ -44,7 +50,7 @@ const Datatable = () => {
             >
               <button className="viewButton">View</button>
             </Link>
-            <button className="updateButton" onClick={() => setOpenUpdate(true)}>update</button>
+            <button className="updateButton" onClick={()=>handleUpdate(params.row)}>update</button>
             <button
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
@@ -69,14 +75,13 @@ const Datatable = () => {
           className="datagrid"
           rows={data}
           columns={userColumns.concat(actionColumn)}
-          pageSizeOptions={10}
           pageSize={10}
           rowsPerPageOptions={[9]}
           checkboxSelection
           hideFooterPagination
         />
       </div>
-      {openUpdate && <Update setOpenUpdate={setOpenUpdate} user={data} />}
+      {openUpdate && <Update setOpenUpdate={setOpenUpdate} user={clickUser} />}
     </div>
   );
 };

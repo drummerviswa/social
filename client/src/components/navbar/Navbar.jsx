@@ -33,7 +33,7 @@ const Navbar = () => {
         <Link to="/" style={{ textDecoration: "none" }}>
           <span>Parimaatram</span>
         </Link>
-        <HomeOutlinedIcon />
+        <HomeOutlinedIcon onClick={() => navigate("/")} />
         {darkMode ? (
           <WbSunnyOutlinedIcon onClick={toggle} />
         ) : (
@@ -47,7 +47,7 @@ const Navbar = () => {
       </div>
       <div className="right">
         {currentUser.type===0?<></>:<PersonOutlinedIcon onClick={() => navigate("/admin")} />}
-        <EmailOutlinedIcon />
+        <EmailOutlinedIcon onClick={() => {window.open("https://www.gmail.com","_blank")}} />
         <NotificationsOutlinedIcon />
         <div style={{cursor:"pointer"}} className="user" onClick={handleLogout}>
           <img

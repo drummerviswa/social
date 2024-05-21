@@ -6,6 +6,7 @@ $themes: (
     bgSoft: #f6f3f3,
     textColorSoft: #555,
     border: lightgray,
+    tabletitle:gray
   ),
   dark: (
     textColor: whitesmoke,
@@ -14,8 +15,34 @@ $themes: (
     bgSoft: #333,
     textColorSoft: lightgray,
     border: #444,
+    tabletitle:white,
+    tablebg:rgba(0,0,0,0.123),
   ),
 );
+body{
+  img{
+    pointer-events: none;
+  }
+  overflow:auto;
+}
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 10px;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #000;
+}
 
 @mixin themify($themes) {
   @each $theme, $map in $themes {

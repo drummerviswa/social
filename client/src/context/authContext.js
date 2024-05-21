@@ -8,16 +8,27 @@ export const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || null
   );
   const login = async(inputs) => {
-    const res =await axios.post("http://localhost:8800/api/auth/login",inputs,{
-      withCredentials:true
-    })
-    setCurrentUser(res.data);
+    try {
+      const res = await axios.post("http://localhost:8800/api/auth/login", inputs, {
+        withCredentials: true,
+      });
+      setCurrentUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
   };
-  const logout = async(inputs) => {
-    const res =await axios.post("http://localhost:8800/api/auth/logout",inputs,{
-      // withCredentials:true
-    })
-    setCurrentUser(null);
+  const logout = async () => {
+    try {
+      await axios.post("http://localhost:8800/api/auth/logout", {}, {
+        withCredentials: true,
+      });
+      setCurrentUser(null);
+      localStorage.removeItem("user");
+    } catch (err) {
+      console.error("Logout failed:", err);
+      // Handle the error appropriately, e.g., show a message to the user
+    }
   };
 
   useEffect(() => {

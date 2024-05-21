@@ -24,7 +24,7 @@ const LeftBar = () => {
   return (
     <div className="leftBar">
       <div className="container">
-        <div className="menu">
+        <div className="menu" style={{cursor:"pointer"}}>
           <div className="user" onClick={() => navigate("/profile/"+currentUser.id)}>
             <img
               src={"/uploads/"+currentUser.coverPic}

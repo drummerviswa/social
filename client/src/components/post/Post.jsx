@@ -33,6 +33,7 @@ const Post = ({ post }) => {
         queryClient.invalidateQueries(["likes"]);
     }
   })
+  console.log("Post:",post);
   const deleteMutation = useMutation({
     mutationFn: (postId) => {
       return makeRequest.delete("/posts/" + postId);

@@ -57,7 +57,7 @@ const RightBar = () => {
                 u.id != currentUser.id && (
                   <div key={u.id} className="user">
                     <div className="userInfo">
-                      <img src={"/uploads/" + u.profilePic} alt="" />
+                      <img src={"/uploads/" + u.coverPic} alt="" />
                       <div className="online" />
                       <span
                         onClick={() =>
