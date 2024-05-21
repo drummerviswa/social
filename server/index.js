@@ -9,13 +9,10 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import multer from "multer";
 const app = express();
-
-app.use((req,res,next)=>{
-    res.header("Access-Control-Allow-Credentials",true)
-    next()
-})
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin:"https://social-drummerviswa.vercel.app/"
+}));
 app.use(cookieParser());
 
 const storage = multer.diskStorage({

@@ -11,6 +11,7 @@ const Posts = ({userId}) => {
         return res.data;
       })
   });
+  console.log("POST:",data)
   return (<div className="posts">
     {error
       ? "Something went wrong!"
