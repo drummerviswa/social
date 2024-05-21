@@ -11,6 +11,9 @@ export const AuthContextProvider = ({ children }) => {
     try {
       const res = await axios.post("https://social-5r67.onrender.com/api/auth/login", inputs, {
         withCredentials: true,
+        headers:{
+          Authorization:`bearer ${currentUser}`
+        }
       });
       setCurrentUser(res.data);
       localStorage.setItem("user", JSON.stringify(res.data));
@@ -22,6 +25,9 @@ export const AuthContextProvider = ({ children }) => {
     try {
       await axios.post("https://social-5r67.onrender.com/api/auth/logout", {}, {
         withCredentials: true,
+        headers:{
+          Authorization:`bearer ${currentUser}`
+        }
       });
       setCurrentUser(null);
       localStorage.removeItem("user");
