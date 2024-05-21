@@ -11,7 +11,7 @@ import multer from "multer";
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin:"https://social-drummerviswa.vercel.app/"
+  origin:"https://social-drummerviswa.vercel.app"
 }));
 app.use(cookieParser());
 
