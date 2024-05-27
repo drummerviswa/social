@@ -21,23 +21,21 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await axios.post("https://social-5r67.onrender.com/api/auth/register", inputs);
+      await axios.post("http://localhost:8800/api/auth/register", inputs);
     } catch (err) {
       setErr(err.response.data);
     }
-    navigate("/login")
+    navigate("/login");
   };
 
-  console.log(err)
+  console.log(err);
 
   return (
     <div className="register">
       <div className="card">
         <div className="left">
           <h1>Register.</h1>
-          <p>
-            This is the register page of Parimaatram
-          </p>
+          <p>This is the register page of Parimaatram</p>
           <span>Do you have an account?</span>
           <Link to="/login">
             <button>Login</button>
@@ -72,6 +70,12 @@ const Register = () => {
             />
             {err && err}
             <button onClick={handleClick}>Register</button>
+            <div className="hidden_reg">
+              <span>Do you have an account?</span>
+              <Link to="/login" className="linnk">
+                Login
+              </Link>
+            </div>
           </form>
         </div>
       </div>
