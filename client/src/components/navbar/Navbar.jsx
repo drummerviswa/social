@@ -39,7 +39,6 @@ const Navbar = () => {
         ) : (
           <DarkModeOutlinedIcon onClick={toggle} />
         )}
-        <GridViewOutlinedIcon />
         <div className="search">
           <SearchOutlinedIcon />
           <input type="text" placeholder="Search..." />
@@ -47,8 +46,8 @@ const Navbar = () => {
       </div>
       <div className="right">
         {currentUser.type===0?<></>:<PersonOutlinedIcon onClick={() => navigate("/admin")} />}
-        <EmailOutlinedIcon onClick={() => {window.open("https://www.gmail.com","_blank")}} />
-        <NotificationsOutlinedIcon />
+        <EmailOutlinedIcon className="em" onClick={() => {window.open("https://www.gmail.com","_blank")}} />
+        <NotificationsOutlinedIcon className="no" />
         <div style={{cursor:"pointer"}} className="user" onClick={handleLogout}>
           <img
             src={"/uploads/"+currentUser.coverPic}
