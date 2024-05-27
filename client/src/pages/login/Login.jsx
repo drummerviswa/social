@@ -57,6 +57,12 @@ const Login = () => {
             />
             {err && err}
             <button onClick={handleLogin}>Login</button>
+            <div className="hidden_reg">
+              <span>Don't you have an account?</span>
+              <Link to="/register" className="linnk">
+                Register
+              </Link>
+            </div>
           </form>
         </div>
       </div>
